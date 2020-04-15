@@ -95,7 +95,7 @@ class InstagramBot:
         bot = self.bot
         bot.get('https://www.instagram.com/{}'.format(user))
         time.sleep(2)
-        bot.find_element_by_xpath('//button[text()="Following"]').click()
+        bot.find_element_by_xpath('/html/body/div[1]/section/main/div/header/section/div[1]/div[2]/span/span[1]/button').click()
         time.sleep(2)
         bot.find_element_by_xpath('//button[text()="Unfollow"]').click()
         time.sleep(4)
@@ -109,14 +109,23 @@ class InstagramBot:
         time.sleep(2)
 
     def directMessage(self, user, message = ''):
+        ''' This function takes user and message as an input and sends direct message as an output. '''
         assert type(message) == str
         bot = self.bot
-        self.follow(user)
+        bot.get('https://www.instagram.com/direct/new/')
         time.sleep(2)
-        bot.find_element_by_xpath('//button[text()="Message"]').click()
-
-        
-        
+        bot.find_element_by_name("queryBox").send_keys(user)
+        time.sleep(2)
+        bot.find_element_by_xpath('/html/body/div[2]/div/div[2]/div[2]/div[1]/div/div[3]/button').click()
+        time.sleep(2)
+        bot.find_element_by_xpath('//button[text()="Next"]').click()
+        time.sleep(2)
+        bot.find_elements_by_xpath("*//textarea")[0].send_keys(message)
+        time.sleep(3)
+        bot.find_element_by_xpath('//button[text()="Send"]').click()
+        time.sleep(2)
+         
+   
     def accountPrivacy(self, user):
         ''' This function returns either true or false. If it's an open account, it returns True, If it's locked. It will return False.   '''
         time.sleep(1)
